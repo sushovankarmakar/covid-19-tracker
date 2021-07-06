@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import InfoBox from "../src/components/InfoBox";
 import Map from "../src/components/Map";
 import Table from "../src/components/table/Table";
+import { sortData } from "./util";
 import "./App.css";
 
 function App() {
@@ -36,7 +37,8 @@ function App() {
             value: country.countryInfo.iso3,
           }));
 
-          setTableData(data);
+          const sortedData = sortData(data);
+          setTableData(sortedData);
           setCountries(countries);
         });
     };
