@@ -1,11 +1,64 @@
+import { FormControl, MenuItem, Select } from "@material-ui/core";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
+  const [countries, setCountries] = useState([]);
+  const [country, setCountry] = useState("worldwide");
+
+  useEffect(() => {
+    const getCountriesData = async () => {
+      await fetch("https://disease.sh/v3/covid-19/countries")
+        .then((response) => response.json())
+        .then((data) => {
+          const countries = data.map((country) => ({
+            name: country.country,
+            value: country.countryInfo.iso3,
+          }));
+          setCountries(countries);
+        });
+    };
+    getCountriesData();
+  }, []);
+
+  const handleCountryChange = (event) => {
+    setCountry(event.target.value);
+  };
+
   return (
     <div className="app">
-      <h1>Covid 19 Tracker</h1>
-      <h1>GitHub Integration is done</h1>
-      <h1>This is react application</h1>
+      <div className="app__header">
+        <h1>COVID-19 TRACKER</h1>
+        <FormControl className="app__dropdown">
+          <Select
+            defaultValue=""
+            variant="outlined"
+            value={country}
+            onChange={handleCountryChange}
+          >
+            <MenuItem key="worldwide" value="worldwide">
+              Worldwide
+            </MenuItem>
+            {countries.map((country) => (
+              <MenuItem key={country.value} value={country.value}>
+                {country.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
+
+      {/* Header */}
+      {/* Title + Select input dropdown */}
+
+      {/* InfoBoxes */}
+      {/* InfoBoxes */}
+      {/* InfoBoxes */}
+
+      {/* Table */}
+      {/* Graph */}
+
+      {/* Map */}
     </div>
   );
 }
