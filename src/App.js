@@ -8,12 +8,14 @@ import {
 import { useEffect, useState } from "react";
 import InfoBox from "../src/components/InfoBox";
 import Map from "../src/components/Map";
+import Table from "../src/components/table/Table";
 import "./App.css";
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
+  const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
     const fetchWorldWideData = async () => {
@@ -33,6 +35,8 @@ function App() {
             name: country.country,
             value: country.countryInfo.iso3,
           }));
+
+          setTableData(data);
           setCountries(countries);
         });
     };
@@ -95,12 +99,14 @@ function App() {
             total={countryInfo.deaths}
           />
         </div>
-        <Map></Map>
+
+        <Map />
       </div>
+
       <Card className="app__right">
         <CardContent>
           <h3>Live cases by country</h3>
-          {/* Table */}
+          <Table countries={tableData}></Table>
           <h3>Worldwide new cases</h3>
           {/* Graph */}
         </CardContent>
