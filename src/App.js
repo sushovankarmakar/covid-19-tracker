@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import InfoBox from "../src/components/InfoBox";
 import Map from "../src/components/Map";
 import Table from "../src/components/table/Table";
+import LineGraph from "../src/components/LineGraph";
 import { sortData } from "./util";
 import "./App.css";
 
@@ -17,6 +18,7 @@ function App() {
   const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
   const [tableData, setTableData] = useState([]);
+  const [dataType, setDataType] = useState("deaths");
 
   useEffect(() => {
     const fetchWorldWideData = async () => {
@@ -86,16 +88,19 @@ function App() {
         </div>
         <div className="app__stats">
           <InfoBox
+            onClick={(event) => setDataType("cases")}
             title="Coronavirus Cases"
             cases={countryInfo.todayCases}
             total={countryInfo.cases}
           />
           <InfoBox
+            onClick={(event) => setDataType("recovered")}
             title="Recovered"
             cases={countryInfo.todayRecovered}
             total={countryInfo.recovered}
           />
           <InfoBox
+            onClick={(event) => setDataType("deaths")}
             title="Deaths"
             cases={countryInfo.todayDeaths}
             total={countryInfo.deaths}
@@ -109,8 +114,8 @@ function App() {
         <CardContent>
           <h3>Live cases by country</h3>
           <Table countries={tableData}></Table>
-          <h3>Worldwide new cases</h3>
-          {/* Graph */}
+          <h3>Worldwide new {dataType}</h3>
+          <LineGraph dataType={dataType} />
         </CardContent>
       </Card>
     </div>
