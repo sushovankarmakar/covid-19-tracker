@@ -3,7 +3,7 @@ import { Line } from "react-chartjs-2";
 import numeral from "numeral";
 
 const options = {
-  legend: { display: false },
+  plugins: { legend: { display: false } },
   elements: { point: { radius: 0 } },
   maintainAspectRatio: false,
   tooltips: {
@@ -36,22 +36,21 @@ const options = {
   },
 };
 
-function LineGraph({ dataType = "cases" }) {
+function LineGraph({ casesType = "cases" }) {
   const [data, setData] = useState({});
 
-  const buildChartData = (data, dataType = "cases") => {
+  const buildChartData = (data, casesType = "cases") => {
     const chartData = [];
     let lastDataPoint;
-    for (let date in data[dataType]) {
-      //console.log(date + " " + data[dataType][date]);
+    for (let date in data[casesType]) {
       if (lastDataPoint) {
         let newDataPoint = {
           x: date,
-          y: data[dataType][date] - lastDataPoint,
+          y: data[casesType][date] - lastDataPoint,
         };
         chartData.push(newDataPoint);
       }
-      lastDataPoint = data[dataType][date];
+      lastDataPoint = data[casesType][date];
     }
     return chartData;
   };
@@ -61,14 +60,12 @@ function LineGraph({ dataType = "cases" }) {
       await fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=30")
         .then((response) => response.json())
         .then((data) => {
-          const chartData = buildChartData(data, dataType);
-          //console.log("chartData");
-          //console.log(chartData);
+          const chartData = buildChartData(data, casesType);
           setData(chartData);
         });
     };
     fetchData();
-  }, [dataType]);
+  }, [casesType]);
 
   return (
     <div>
@@ -79,7 +76,7 @@ function LineGraph({ dataType = "cases" }) {
             datasets: [
               {
                 data: data,
-                label: dataType,
+                label: casesType,
                 backgroundColor: "rgba(204, 16, 52, 0.5)",
                 borderColor: "#CC1034",
               },
