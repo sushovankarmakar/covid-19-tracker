@@ -1,5 +1,4 @@
 import React from "react";
-import numeral from "numeral";
 import { Circle, Popup } from "react-leaflet";
 
 const caseTypeColors = {

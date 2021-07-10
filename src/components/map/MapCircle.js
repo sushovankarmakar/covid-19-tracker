@@ -1,5 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { Circle, Popup } from "react-leaflet";
+import numeral from "numeral";
+
+import "./MapCircle.css";
 
 export default function MapCircle({ country, casesType = "cases" }) {
   const circleRef = useRef();
@@ -49,7 +52,22 @@ export default function MapCircle({ country, casesType = "cases" }) {
         fillColor={circleProperties.fillColor}
       >
         <Popup>
-          <h1>I am Popup</h1>
+          <div className="info-container">
+            <div
+              className="info-flag"
+              style={{ backgroundImage: `url(${country.countryInfo.flag})` }}
+            />
+            <div className="info-name">{country.country}</div>
+            <div className="info-confirmed">
+              Cases: {numeral(country.cases).format("0,0")}
+            </div>
+            <div className="info-recovered">
+              Recovered: {numeral(country.recovered).format("0,0")}
+            </div>
+            <div className="info-deaths">
+              Deaths: {numeral(country.deaths).format("0,0")}
+            </div>
+          </div>
         </Popup>
       </Circle>
     </>
