@@ -6,7 +6,7 @@ import {
   CardContent,
 } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import InfoBox from "../src/components/InfoBox";
+import InfoBox from "./components/infobox/InfoBox";
 import Map from "./components/map/Map";
 import Table from "../src/components/table/Table";
 import LineGraph from "../src/components/LineGraph";
@@ -99,18 +99,23 @@ function App() {
         </div>
         <div className="app__stats">
           <InfoBox
+            isRed
+            active={casesType === "cases"}
             onClick={(event) => setCasesType("cases")}
             title="Coronavirus Cases"
             cases={countryInfo.todayCases}
             total={countryInfo.cases}
           />
           <InfoBox
+            active={casesType === "recovered"}
             onClick={(event) => setCasesType("recovered")}
             title="Recovered"
             cases={countryInfo.todayRecovered}
             total={countryInfo.recovered}
           />
           <InfoBox
+            isRed
+            active={casesType === "deaths"}
             onClick={(event) => setCasesType("deaths")}
             title="Deaths"
             cases={countryInfo.todayDeaths}
@@ -126,14 +131,20 @@ function App() {
         />
       </div>
 
-      <Card className="app__right">
-        <CardContent>
-          <h3>Live cases by country</h3>
-          <Table countries={tableData}></Table>
-          <h3>Worldwide new {casesType}</h3>
-          <LineGraph casesType={casesType} />
-        </CardContent>
-      </Card>
+      <div className="app__right">
+        <Card className="right__graph">
+          <CardContent>
+            <h3 className="graph__title">Worldwide new {casesType}</h3>
+            <LineGraph casesType={casesType} />
+          </CardContent>
+        </Card>
+        <Card className="right__table">
+          <CardContent className="table__title">
+            <h3>Live cases by country</h3>
+            <Table countries={tableData}></Table>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

@@ -34,6 +34,7 @@ export default function MapCircle({ country, casesType = "cases" }) {
 
   useEffect(() => {
     setCircleProperties({
+      ...circleProperties,
       center: [country.countryInfo.lat, country?.countryInfo.long],
       radius:
         Math.sqrt(country[casesType]) * caseTypeColors[casesType].multiplier,
@@ -48,8 +49,10 @@ export default function MapCircle({ country, casesType = "cases" }) {
         ref={circleRef}
         center={circleProperties.center}
         radius={circleProperties.radius}
-        color={circleProperties.color}
-        fillColor={circleProperties.fillColor}
+        pathOptions={{
+          color: [circleProperties.color],
+          fillColor: [circleProperties.fillColor],
+        }}
       >
         <Popup>
           <div className="info-container">

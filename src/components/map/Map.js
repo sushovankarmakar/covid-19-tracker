@@ -11,8 +11,8 @@ function Map({ countries, casesType, center, zoom }) {
         <ChangeView center={center} zoom={zoom} />
 
         {countries?.length > 0 &&
-          countries.map((country) => (
-            <MapCircle country={country} casesType={casesType} />
+          countries.map((country, index) => (
+            <MapCircle key={index} country={country} casesType={casesType} />
           ))}
 
         <TileLayer
